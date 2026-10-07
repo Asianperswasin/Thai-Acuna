@@ -4,7 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thai Acuna | IT Portfolio</title>
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Thai Acuna | IT & Home Lab Portfolio">
+    <meta property="og:description" content="Explore systems administration projects, network topologies, and self-hosted infrastructure builds.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://themagicalforest.net">
+    <meta property="og:image" content="https://themagicalforest.net/assets/preview.png">
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- Highlight.js for Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- Mermaid.js for Live Network Topology Diagrams -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
 </head>
 <body>
 
@@ -14,7 +32,8 @@
             <p class="subtitle">System Administrator | Network & Home Lab Specialist</p>
             <nav>
                 <a href="#lab">Home Lab</a>
-                <a href="#projects">Projects</a>
+                <a href="#topology">Topology</a>
+                <a href="#scripts">Automation</a>
                 <a href="assets/resume.pdf" target="_blank" class="btn">Resume (PDF)</a>
             </nav>
         </div>
@@ -26,37 +45,65 @@
             <h2>Home Lab & Infrastructure</h2>
             <div class="grid">
                 <div class="card">
-                    <h3>Network Topology</h3>
-                    <p>Docker stacks, Nginx reverse proxy routing, and local DNS ad-blocking infrastructure.</p>
+                    <h3>Docker Swarm & Nginx Proxy Manager</h3>
+                    <p>Containerized workloads managed across internal nodes. Edge ingress handled via Cloudflare proxy and Nginx Proxy Manager for SSL termination and custom subdomain routing.</p>
                 </div>
                 <div class="card">
-                    <h3>Virtualization & Services</h3>
-                    <p>Self-hosted environment running containerized services and custom subdomains.</p>
+                    <h3>DNS & Network Services</h3>
+                    <p>Pi-hole with HaGeZi blocklists for network-wide ad blocking, local DNS resolution, and local TLS routing.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Projects Section -->
-        <section id="projects">
-            <h2>Accomplishments & Builds</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Automation & Scripting</h3>
-                    <p>Custom Bash and PowerShell administration scripts for system deployment.</p>
-                </div>
-                <div class="card">
-                    <h3>Cloud & DNS Integration</h3>
-                    <p>Configured Cloudflare edge DNS, CNAME routing, and GitHub Pages deployments.</p>
-                </div>
+        <!-- Live Network Diagram (Mermaid.js) -->
+        <section id="topology">
+            <h2>Live Network Topology</h2>
+            <div class="card">
+                <pre class="mermaid">
+                flowchart TD
+                    Internet([Internet Traffic]) --> CF[Cloudflare Edge DNS & SSL]
+                    CF --> Router[Netgear Orbi Mesh Router]
+                    
+                    subgraph HomeLab [Home Lab Infrastructure]
+                        Router --> NPM[Nginx Proxy Manager]
+                        Router --> Pihole[Pi-hole DNS Node]
+                        
+                        NPM --> Docker1[Docker Node: Web Services]
+                        NPM --> Docker2[Docker Node: Application Stacks]
+                    end
+                </pre>
+            </div>
+        </section>
+
+        <!-- Automation & Code Snippets Section -->
+        <section id="scripts">
+            <h2>Automation & Deployment Scripts</h2>
+            <div class="card">
+                <h3>Docker Compose Ingress Deployment</h3>
+                <pre><code class="language-yaml">
+version: '3.8'
+services:
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+                </code></pre>
             </div>
         </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Thai Acuna. Built with GitHub Pages & Cloudflare.</p>
+            <p>&copy; 2026 Thai Acuna. Hosted on GitHub Pages & Secured by Cloudflare.</p>
         </div>
     </footer>
 
+    <script>hljs.highlightAll();</script>
 </body>
 </html>
