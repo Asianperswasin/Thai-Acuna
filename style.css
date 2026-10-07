@@ -5,6 +5,18 @@
     --text-muted: #94a3b8;
     --accent: #38bdf8;
     --accent-hover: #0284c7;
+    --border-color: #334155;
+    --status-green: #22c55e;
+}
+
+body.light-theme {
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --accent: #0284c7;
+    --accent-hover: #0369a1;
+    --border-color: #e2e8f0;
 }
 
 body {
@@ -13,36 +25,50 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
 }
 
 header {
-    border-bottom: 1px solid #334155;
-    padding: 2rem 0;
+    border-bottom: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     margin: 0;
-    color: var(--text-main);
 }
 
 .subtitle {
     color: var(--accent);
-    font-size: 1.2rem;
-    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    margin-top: 0.25rem;
 }
 
 nav {
-    margin-top: 1.5rem;
     display: flex;
     gap: 1.5rem;
-    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 nav a {
@@ -61,34 +87,75 @@ nav a:hover {
     padding: 0.5rem 1rem;
     border-radius: 6px;
     font-weight: 600;
+    text-decoration: none;
 }
 
 .btn:hover {
     background-color: var(--accent-hover);
 }
 
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 0.5rem 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Status Indicator Widget */
+#status-bar {
+    padding: 1rem 0;
+}
+
+.status-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    flex-wrap: wrap;
+}
+
+.status-indicator.online {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--status-green);
+    box-shadow: 0 0 8px var(--status-green);
+}
+
+.status-domain {
+    margin-left: auto;
+    color: var(--text-muted);
+}
+
 section {
-    padding: 2.5rem 0;
+    padding: 2rem 0;
 }
 
 h2 {
     border-bottom: 2px solid var(--accent);
     display: inline-block;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
+    padding-bottom: 0.35rem;
+    margin-bottom: 1.25rem;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
 }
 
 .card {
     background-color: var(--card-bg);
     padding: 1.5rem;
     border-radius: 8px;
-    border: 1px solid #334155;
+    border: 1px solid var(--border-color);
 }
 
 .card h3 {
@@ -96,23 +163,31 @@ h2 {
     color: var(--accent);
 }
 
-/* Code & Diagram Styling */
+.case-study-card h3 {
+    margin-top: 1rem;
+}
+
+.case-study-card h3:first-of-type {
+    margin-top: 0;
+}
+
+/* Diagram & Snippet Formatting */
 pre code {
     border-radius: 6px;
     padding: 1rem !important;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
 }
 
 .mermaid {
     display: flex;
     justify-content: center;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
 }
 
 footer {
-    border-top: 1px solid #334155;
+    border-top: 1px solid var(--border-color);
     text-align: center;
     color: var(--text-muted);
-    font-size: 0.9rem;
-    padding: 1rem 0;
+    font-size: 0.875rem;
+    padding: 1.5rem 0;
 }
