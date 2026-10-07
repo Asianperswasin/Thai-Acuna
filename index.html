@@ -68,7 +68,7 @@
                 </div>
                 <div class="card">
                     <h3>THAIA Rig (Main Workstation)</h3>
-                    <p>host running central Portainer UI and environment agents across private Twingate overlays.</p>
+                    <p>Host running central Portainer UI and environment agents across private Twingate overlays.</p>
                 </div>
                 <div class="card">
                     <h3>TheOnePump Node</h3>
@@ -87,10 +87,13 @@
             <div class="card">
                 <pre class="mermaid">
 flowchart TD
+    %% Ingress & Edge Layer
     SubGraph1[Remote / Mobile Traffic]
-    Internet([Public Internet]) -->|Edge Proxy| CF[Cloudflare Edge DNS]
+    Internet([Public Internet]) -->|DNS Resolution| CF[Cloudflare Edge DNS]
 
-    subgraph HomeLab [Home Lab Infrastructure]
+    %% Home Lab Subgraph
+    subgraph HomeLab ["Home Lab Infrastructure"]
+        direction TB
         Router[Netgear Orbi Mesh Router]
         Pihole[Pi-hole DNS Sinkhole]
         NPM[Nginx Proxy Manager Ingress]
@@ -106,7 +109,9 @@ flowchart TD
         NPM -->|Internal Forward| PiholeUI
     end
 
+    %% External Connections
     SubGraph1 -->|Twingate VPN Tunnel| Router
+    CF -.->|HTTPS / API Challenge| NPM
                 </pre>
             </div>
         </section>
