@@ -1,1 +1,104 @@
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-hover: #0284c7;
+}
 
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    border-bottom: 1px solid #334155;
+    padding: 2rem 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: var(--text-main);
+}
+
+.subtitle {
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+nav {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+.btn {
+    background-color: var(--accent);
+    color: #0f172a !important;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background-color: var(--accent-hover);
+}
+
+section {
+    padding: 3rem 0;
+}
+
+h2 {
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #334155;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: var(--accent);
+}
+
+footer {
+    border-top: 1px solid #334155;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
