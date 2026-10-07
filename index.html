@@ -158,7 +158,28 @@ curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
             </div>
         </section>
     </main>
+<section id="projects">
+  <h2>Systems & Home Lab Infrastructure</h2>
+  
+  <div class="project-card">
+    <h3>Self-Hosted Password Vault (Vaultwarden)</h3>
+    <p>Deployed a lightweight, open-source Bitwarden implementation via Docker on <strong>THQlab</strong>[cite: 11]. Integrated with Nginx Proxy Manager for HTTPS encryption and reverse proxying[cite: 11].</p>
+    <ul>
+      <li><strong>Stack:</strong> Docker, Vaultwarden, Nginx Proxy Manager, Cloudflare DNS[cite: 11]</li>
+      <li><strong>Features:</strong> End-to-end encrypted password vault, 2FA/TOTP management, and secure browser/mobile synchronization[cite: 11].</li>
+    </ul>
+  </div>
 
+  <div class="project-card">
+    <h3>Self-Hosted Remote Desktop Relay (RustDesk)</h3>
+    <p>Configured a private RustDesk relay server inside Docker to handle secure, low-latency remote desktop access across endpoints[cite: 12].</p>
+    <ul>
+      <li><strong>Stack:</strong> Docker, RustDesk Server, Twingate Zero Trust Network[cite: 12]</li>
+      <li><strong>Features:</strong> Peer-to-peer encrypted remote sessions without relying on third-party cloud relays or exposing open ports[cite: 12].</li>
+    </ul>
+  </div>
+</section>
+    
     <footer>
         <div class="container">
             <p>&copy; 2026 Thai Acuna. Hosted on GitHub Pages & Secured by Cloudflare.</p>
