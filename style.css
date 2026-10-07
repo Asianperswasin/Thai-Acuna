@@ -249,3 +249,29 @@ footer {
     color: var(--text-muted);
     font-size: 0.85rem;
 }
+
+/* --- Mermaid Diagram Fixes --- */
+.mermaid {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+    overflow-x: auto;
+}
+
+.mermaid svg {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+.mermaid .cluster text {
+    fill: var(--text-color) !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    transform: translateY(-6px);
+}
+
+.mermaid .cluster rect {
+    stroke: var(--card-border) !important;
+    rx: 8px !important;
+    ry: 8px !important;
+}
