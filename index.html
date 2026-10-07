@@ -60,7 +60,7 @@
             <h2>Home Lab Infrastructure</h2>
             <div class="grid">
                 <div class="card">
-                    <h3>THQlab Node (192.168.1.23)</h3>
+                    <h3>THQlab Node</h3>
                     <p>Docker Desktop & WSL2 Ubuntu host running Nginx Proxy Manager (80/443 ingress), Pi-hole DNS ad-blocking, and dedicated gaming containers (Palworld).</p>
                 </div>
                 <div class="card">
@@ -69,7 +69,7 @@
                 </div>
                 <div class="card">
                     <h3>TheOnePump Node</h3>
-                    <p>Entertainment & media node linked into Twingate zero-trust remote access subnet (192.168.1.0/24).</p>
+                    <p>Entertainment & media node linked into Twingate zero-trust remote access overlay network.</p>
                 </div>
                 <div class="card">
                     <h3>Ingress & DNS Layer</h3>
@@ -88,8 +88,8 @@
                     Internet([Public Internet]) -->|Edge Proxy| CF[Cloudflare Edge DNS]
                     
                     subgraph HomeLab [Home Lab Infrastructure]
-                        Router --> Pihole[Pi-hole DNS Sinkhole @ 192.168.1.23]
-                        Router --> NPM[Nginx Proxy Manager Ingress @ 192.168.1.23]
+                        Router --> Pihole[Pi-hole DNS Sinkhole]
+                        Router --> NPM[Nginx Proxy Manager Ingress]
                         
                         NPM -->|HTTP/443 Wildcard SSL| PortainerUI[Portainer UI @ THAIA]
                         NPM -->|Internal Forward| PiholeUI[Pi-hole Admin Web UI]
