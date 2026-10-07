@@ -90,14 +90,14 @@
                     SubGraph1[Remote / Mobile Traffic] -->|Twingate VPN Tunnel| Router[Netgear Orbi Mesh Router]
                     Internet([Public Internet]) -->|Edge Proxy| CF[Cloudflare Edge DNS]
                     
-                    subgraph HomeLab [Home Lab Infrastructure]
+                    subgraph HomeLab ["<br/><br/> Home Lab Infrastructure "]
                         Router --> Pihole[Pi-hole DNS Sinkhole]
                         Router --> NPM[Nginx Proxy Manager Ingress]
                         
                         NPM -->|HTTP/443 Wildcard SSL| PortainerUI[Portainer UI @ THAIA]
                         NPM -->|Internal Forward| PiholeUI[Pi-hole Admin Web UI]
                         
-                        Router -->|Direct UDP Game Ports| Palworld[Palworld Server Container @ THQlab]
+                        Router -->|Direct UDP Game Ports| Gaming Server[Server Container @ THQlab]
                     end
                 </pre>
             </div>
