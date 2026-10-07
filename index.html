@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thai Acuna | IT Portfolio</title>
+    <title>Thai Acuna | IT & Home Lab Portfolio</title>
 
     <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="Thai Acuna | IT & Home Lab Portfolio">
-    <meta property="og:description" content="Explore systems administration projects, network topologies, and self-hosted infrastructure builds.">
+    <meta property="og:title" content="Thai Acuna | System Administrator & Home Lab Portfolio">
+    <meta property="og:description" content="Multi-node home lab topology, reverse proxies, wildcard TLS, and containerized infrastructure deployment.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://themagicalforest.net">
-    <meta property="og:image" content="https://themagicalforest.net/assets/preview.png">
+    <meta property="og:image" content="https://themagicalforest.net/assets/og-preview.png">
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Highlight.js for Code Syntax Highlighting -->
+    <!-- Highlight.js for Syntax Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
-    <!-- Mermaid.js for Live Network Topology Diagrams -->
+    <!-- Mermaid.js for Live Network Topologies -->
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true, theme: 'dark' });
@@ -27,72 +27,133 @@
 <body>
 
     <header>
-        <div class="container">
-            <h1>Thai Acuna</h1>
-            <p class="subtitle">System Administrator | Network & Home Lab Specialist</p>
-            <nav>
-                <a href="#lab">Home Lab</a>
-                <a href="#topology">Topology</a>
-                <a href="#scripts">Automation</a>
+        <div class="container header-flex">
+            <div>
+                <h1>Thai Acuna</h1>
+                <p class="subtitle">System Administrator | Network & Home Lab Specialist</p>
+            </div>
+            <div class="header-actions">
+                <button id="theme-toggle" class="btn-secondary" aria-label="Toggle Theme">🌙 Dark</button>
                 <a href="assets/resume.pdf" target="_blank" class="btn">Resume (PDF)</a>
-            </nav>
+            </div>
         </div>
+        <nav class="container">
+            <a href="#lab">Home Lab</a>
+            <a href="#topology">Topology</a>
+            <a href="#case-study">Case Study</a>
+            <a href="#snippets">Code Snippets</a>
+        </nav>
     </header>
 
     <main class="container">
+        <!-- Live Health Status Badge -->
+        <section id="status-bar">
+            <div class="status-card">
+                <span class="status-indicator online"></span>
+                <span><strong>Infrastructure Status:</strong> All core nodes online (THQlab, THAIA, TheOnePump)</span>
+                <span class="status-domain">Domain: <code>themagicalforest.net</code></span>
+            </div>
+        </section>
+
         <!-- Home Lab Section -->
         <section id="lab">
-            <h2>Home Lab & Infrastructure</h2>
+            <h2>Home Lab Infrastructure</h2>
             <div class="grid">
                 <div class="card">
-                    <h3>Docker Swarm & Nginx Proxy Manager</h3>
-                    <p>Containerized workloads managed across internal nodes. Edge ingress handled via Cloudflare proxy and Nginx Proxy Manager for SSL termination and custom subdomain routing.</p>
+                    <h3>THQlab Node (192.168.1.23)</h3>
+                    <p>Docker Desktop & WSL2 Ubuntu host running Nginx Proxy Manager (80/443 ingress), Pi-hole DNS ad-blocking, and dedicated gaming containers (Palworld).</p>
                 </div>
                 <div class="card">
-                    <h3>DNS & Network Services</h3>
-                    <p>Pi-hole with HaGeZi blocklists for network-wide ad blocking, local DNS resolution, and local TLS routing.</p>
+                    <h3>THAIA Rig (Main Workstation)</h3>
+                    <p>AMD Ryzen 7 5800X / 48GB DDR4 host running central Portainer UI and environment agents across private Twingate overlays.</p>
+                </div>
+                <div class="card">
+                    <h3>TheOnePump Node</h3>
+                    <p>Entertainment & media node linked into Twingate zero-trust remote access subnet (192.168.1.0/24).</p>
+                </div>
+                <div class="card">
+                    <h3>Ingress & DNS Layer</h3>
+                    <p>Cloudflare DNS edge integration with Let's Encrypt wildcard SSL (*.themagicalforest.net) via Let's Encrypt DNS-01 verification challenges.</p>
                 </div>
             </div>
         </section>
 
         <!-- Live Network Diagram (Mermaid.js) -->
         <section id="topology">
-            <h2>Live Network Topology</h2>
+            <h2>Network Architecture & Traffic Flow</h2>
             <div class="card">
                 <pre class="mermaid">
                 flowchart TD
-                    Internet([Internet Traffic]) --> CF[Cloudflare Edge DNS & SSL]
-                    CF --> Router[Netgear Orbi Mesh Router]
+                    SubGraph1[Remote / Mobile Traffic] -->|Twingate VPN Tunnel| Router[Netgear Orbi Mesh Router]
+                    Internet([Public Internet]) -->|Edge Proxy| CF[Cloudflare Edge DNS]
                     
                     subgraph HomeLab [Home Lab Infrastructure]
-                        Router --> NPM[Nginx Proxy Manager]
-                        Router --> Pihole[Pi-hole DNS Node]
+                        Router --> Pihole[Pi-hole DNS Sinkhole @ 192.168.1.23]
+                        Router --> NPM[Nginx Proxy Manager Ingress @ 192.168.1.23]
                         
-                        NPM --> Docker1[Docker Node: Web Services]
-                        NPM --> Docker2[Docker Node: Application Stacks]
+                        NPM -->|HTTP/443 Wildcard SSL| PortainerUI[Portainer UI @ THAIA]
+                        NPM -->|Internal Forward| PiholeUI[Pi-hole Admin Web UI]
+                        
+                        Router -->|Direct UDP Game Ports| Palworld[Palworld Server Container @ THQlab]
                     end
                 </pre>
             </div>
         </section>
 
+        <!-- Case Study Section -->
+        <section id="case-study">
+            <h2>Project Case Study: Zero-Trust Remote Ingress & DNS Sinkholing</h2>
+            <div class="card case-study-card">
+                <h3>Problem Statement</h3>
+                <p>Exposing home lab management web UIs (Portainer, Pi-hole) and custom game server instances directly to the public internet via port forwarding creates security vulnerabilities and exposes home IP addresses to scanning.</p>
+
+                <h3>Solution & Implementation</h3>
+                <p>Architected a hybrid ingress model combining <strong>Cloudflare API DNS-01 challenge automation</strong> in Nginx Proxy Manager for wildcard SSL termination (*.themagicalforest.net), combined with a network-wide <strong>Pi-hole DNS sinkhole</strong> and a <strong>Twingate zero-trust software overlay</strong> across all primary lab machines (THQlab, THAIA, TheOnePump).</p>
+
+                <h3>Key Technical Takeaways</h3>
+                <ul>
+                    <li>Eliminated exposed administration ports to the outside internet.</li>
+                    <li>Automated trusted SSL certificate provisioning without open HTTP/80 validation ports.</li>
+                    <li>Achieved network-wide ad and domain filtering across both desktop and mobile clients.</li>
+                </ul>
+            </div>
+        </section>
+
         <!-- Automation & Code Snippets Section -->
-        <section id="scripts">
-            <h2>Automation & Deployment Scripts</h2>
+        <section id="snippets">
+            <h2>Infrastructure Code Snippets</h2>
+            
             <div class="card">
-                <h3>Docker Compose Ingress Deployment</h3>
+                <h3>Nginx Proxy Manager Stack (Portainer Compose)</h3>
                 <pre><code class="language-yaml">
 version: '3.8'
+
 services:
-  nginx-proxy-manager:
+  app:
     image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
     restart: unless-stopped
     ports:
-      - '80:80'
-      - '81:81'
-      - '443:443'
+      - '80:80'     # HTTP Ingress
+      - '81:81'     # Management Web UI
+      - '443:443'   # HTTPS Ingress
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - npm_data:/data
+      - npm_letsencrypt:/etc/letsencrypt
+
+volumes:
+  npm_data:
+  npm_letsencrypt:
+                </code></pre>
+            </div>
+
+            <div class="card" style="margin-top: 1.5rem;">
+                <h3>Cloudflare DNS Challenge Credentials Verification</h3>
+                <pre><code class="language-bash">
+# Test Cloudflare Scoped API Token for DNS-01 SSL Automated Issuance
+curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+     -H "Authorization: Bearer YOUR_CLOUDFLARE_API_TOKEN" \
+     -H "Content-Type: application/json"
                 </code></pre>
             </div>
         </section>
@@ -104,6 +165,19 @@ services:
         </div>
     </footer>
 
-    <script>hljs.highlightAll();</script>
+    <!-- JavaScript for Code Highlighting & Theme Toggle -->
+    <script>
+        hljs.highlightAll();
+
+        const toggleBtn = document.getElementById('theme-toggle');
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            if (document.body.classList.contains('light-theme')) {
+                toggleBtn.textContent = '☀️ Light';
+            } else {
+                toggleBtn.textContent = '🌙 Dark';
+            }
+        });
+    </script>
 </body>
 </html>
