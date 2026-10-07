@@ -86,19 +86,27 @@
             <h2>Network Architecture & Traffic Flow</h2>
             <div class="card">
                 <pre class="mermaid">
-                flowchart TD
-                    SubGraph1[Remote / Mobile Traffic] -->|Twingate VPN Tunnel| Router[Netgear Orbi Mesh Router]
-                    Internet([Public Internet]) -->|Edge Proxy| CF[Cloudflare Edge DNS]
-                    
-                    subgraph HomeLab ["<br/><br/> Home Lab Infrastructure "]
-                        Router --> Pihole[Pi-hole DNS Sinkhole]
-                        Router --> NPM[Nginx Proxy Manager Ingress]
-                        
-                        NPM -->|HTTP/443 Wildcard SSL| PortainerUI[Portainer UI @ THAIA]
-                        NPM -->|Internal Forward| PiholeUI[Pi-hole Admin Web UI]
-                        
-                        Router -->|Direct UDP Game Ports| Gaming Server[Server Container @ THQlab]
-                    end
+flowchart TD
+    SubGraph1[Remote / Mobile Traffic]
+    Internet([Public Internet]) -->|Edge Proxy| CF[Cloudflare Edge DNS]
+
+    subgraph HomeLab [Home Lab Infrastructure]
+        Router[Netgear Orbi Mesh Router]
+        Pihole[Pi-hole DNS Sinkhole]
+        NPM[Nginx Proxy Manager Ingress]
+        PortainerUI[Portainer UI @ THAIA]
+        PiholeUI[Pi-hole Admin Web UI]
+        GamingServer[Server Container @ THQlab]
+
+        Router --> Pihole
+        Router --> NPM
+        Router -->|Direct UDP Game Ports| GamingServer
+
+        NPM -->|HTTP/443 Wildcard SSL| PortainerUI
+        NPM -->|Internal Forward| PiholeUI
+    end
+
+    SubGraph1 -->|Twingate VPN Tunnel| Router
                 </pre>
             </div>
         </section>
@@ -108,14 +116,14 @@
             <h2>Project Case Study: Zero-Trust Remote Ingress & DNS Sinkholing</h2>
             <div class="card case-study-card">
                 <h3>Problem Statement</h3>
-                <p>Exposing home lab management web UIs (Portainer, Pi-hole) and custom game server instances directly to the public internet via port forwarding creates security vulnerabilities and exposes home IP addresses to scanning .</p>
+                <p>Exposing home lab management web UIs (Portainer, Pi-hole) and custom game server instances directly to the public internet via port forwarding creates security vulnerabilities and exposes home IP addresses to scanning.</p>
 
                 <h3>Solution & Implementation</h3>
                 <p>Architected a hybrid ingress model combining <strong>Cloudflare API DNS-01 challenge automation</strong> in Nginx Proxy Manager for wildcard SSL termination, combined with a network-wide <strong>Pi-hole DNS sinkhole</strong> and a <strong>Twingate zero-trust software overlay</strong> across all primary lab machines (THQlab, THAIA, TheOnePump).</p>
 
                 <h3>Key Technical Takeaways</h3>
                 <ul>
-                    <li>Eliminated exposed administration ports to the outside internet .</li>
+                    <li>Eliminated exposed administration ports to the outside internet.</li>
                     <li>Automated trusted SSL certificate provisioning without open HTTP/80 validation ports.</li>
                     <li>Achieved network-wide ad and domain filtering across both desktop and mobile clients.</li>
                 </ul>
@@ -168,19 +176,19 @@ curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
             <div class="grid">
                 <div class="card">
                     <h3>Self-Hosted Password Vault (Vaultwarden)</h3>
-                    <p>Deployed a lightweight, open-source Bitwarden implementation via Docker on <strong>THQlab</strong> . Integrated with Nginx Proxy Manager for HTTPS encryption and reverse proxying .</p>
+                    <p>Deployed a lightweight, open-source Bitwarden implementation via Docker on <strong>THQlab</strong>. Integrated with Nginx Proxy Manager for HTTPS encryption and reverse proxying.</p>
                     <ul>
-                        <li><strong>Stack:</strong> Docker, Vaultwarden, Nginx Proxy Manager, Cloudflare DNS </li>
+                        <li><strong>Stack:</strong> Docker, Vaultwarden, Nginx Proxy Manager, Cloudflare DNS</li>
                         <li><strong>Features:</strong> End-to-end encrypted password vault, 2FA/TOTP management, and secure browser/mobile synchronization.</li>
                     </ul>
                 </div>
 
                 <div class="card">
                     <h3>Self-Hosted Remote Desktop Relay (RustDesk)</h3>
-                    <p>Configured a private RustDesk relay server inside Docker to handle secure, low-latency remote desktop access across endpoints .</p>
+                    <p>Configured a private RustDesk relay server inside Docker to handle secure, low-latency remote desktop access across endpoints.</p>
                     <ul>
-                        <li><strong>Stack:</strong> Docker, RustDesk Server, Twingate Zero Trust Network </li>
-                        <li><strong>Features:</strong> Peer-to-peer encrypted remote sessions without relying on third-party cloud relays or exposing open ports .</li>
+                        <li><strong>Stack:</strong> Docker, RustDesk Server, Twingate Zero Trust Network</li>
+                        <li><strong>Features:</strong> Peer-to-peer encrypted remote sessions without relying on third-party cloud relays or exposing open ports.</li>
                     </ul>
                 </div>
             </div>
